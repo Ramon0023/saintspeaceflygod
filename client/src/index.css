@@ -1,0 +1,97 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+
+@theme {
+  --color-black: #000000;
+  --color-purple-900: #0D001A;
+  --color-purple-800: #140028;
+  --color-purple-700: #1E0038;
+  
+  --color-text-primary: #F3EEFF;
+  --color-text-muted: #7C6A99;
+  
+  --color-accent: #9333EA;
+  --color-highlight: #A855F7;
+  --color-highlight-bright: #C084FC;
+  --color-gold: #C9A84C;
+  
+  --font-sans: "DM Sans", sans-serif;
+  --font-serif: "Cormorant Garamond", serif;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background: var(--color-black);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+body {
+  /* High-quality deep atmospheric gradient */
+  background: radial-gradient(circle at 50% -20%, #1a0033 0%, #000000 100%);
+  background-attachment: fixed;
+  background-size: cover;
+  image-rendering: auto;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.03;
+  pointer-events: none;
+  background-image: url("https://www.transparenttextures.com/patterns/stardust.png");
+  z-index: 1;
+}
+
+h1, h2, h3, h4, .font-serif {
+  font-family: var(--font-serif);
+}
+
+.brand-name {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+}
+
+.motto {
+  font-family: var(--font-serif);
+  font-style: italic;
+  text-transform: lowercase;
+  letter-spacing: 0.1em;
+}
+
+.cultural-stamp {
+  font-family: var(--font-sans);
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+}
+
+.glass-panel {
+  background: rgba(14, 0, 26, 0.75);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(147, 51, 234, 0.15);
+}
+
+/* Custom Webkit Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #000; 
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-purple-900); 
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent); 
+}

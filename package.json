@@ -1,0 +1,14 @@
+{
+  "name": "saintspeaceflygod",
+  "version": "1.0.0",
+  "description": "Saintspeaceflygod™ — Brand4theChildren",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently -n \"SERVER,CLIENT\" -c \"magenta,cyan\" \"npm run dev --prefix server\" \"npm run dev --prefix client\"",
+    "seed": "npm run seed --prefix server",
+    "install:all": "npm install && npm install --prefix server && npm install --prefix client"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
