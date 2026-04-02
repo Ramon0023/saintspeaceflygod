@@ -199,6 +199,7 @@ export default function Admin() {
             </Button>
           ))}
         </div>
+        </div>
       </motion.div>
 
       {loading ? (
