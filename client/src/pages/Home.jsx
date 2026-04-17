@@ -3,11 +3,9 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import Button from '../components/ui/Button';
 import axios from 'axios';
-import { useCartStore } from '../store/cartStore';
 
 export default function Home() {
   const [featured, setFeatured] = useState([]);
-  const addToCart = useCartStore(state => state.addToCart);
 
   useEffect(() => {
     document.title = 'Saintspeaceflygod™ | dream to inspire';

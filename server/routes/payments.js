@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { initiateSTKPush } = require('../services/mpesa');
 const { createPaymentIntent, stripe } = require('../services/stripe');
+const { decrementStock } = require('../services/stock');
 const Order = require('../models/Order');
 const AuditLog = require('../models/AuditLog');
 const { protect } = require('../middleware/auth');
@@ -42,6 +43,7 @@ router.post('/mpesa/confirm', protect, async (req, res) => {
       order.paymentStatus = 'paid';
       order.orderStatus = 'processing';
       await order.save();
+      await decrementStock(order);
       await AuditLog.create({ userId: req.user._id, action: 'PAYMENT_SUCCESS', details: { orderId: order._id, type: 'mpesa' } });
       return res.json({ message: 'Payment confirmed via demo mode' });
     }
@@ -65,6 +67,7 @@ router.post('/webhook/mpesa', express.json(), async (req, res) => {
     if (resultCode === 0) {
       order.paymentStatus = 'paid';
       order.orderStatus = 'processing';
+      await decrementStock(order);
       await AuditLog.create({ action: 'WEBHOOK_PAYMENT_SUCCESS', details: { orderId: order._id, type: 'mpesa' } });
     } else {
       order.paymentStatus = 'failed';
@@ -118,4 +121,3 @@ router.post('/stripe/confirm', protect, async (req, res) => {
 });
 
 module.exports = router;
-ule.exports = router;

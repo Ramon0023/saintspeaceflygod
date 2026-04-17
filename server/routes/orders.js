@@ -39,8 +39,8 @@ router.post('/', protect, async (req, res) => {
   }
 });
 
-// Get user orders
-router.get('/', protect, async (req, res) => {
+// Get user orders (both / and /my-orders aliases)
+router.get(['/', '/my-orders'], protect, async (req, res) => {
   try {
     const orders = await Order.find({ user: req.user._id }).sort({ createdAt: -1 });
     res.json(orders);

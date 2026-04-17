@@ -57,11 +57,11 @@ const seedData = async () => {
     console.log('Creating Admin User...');
     const adminUser = await User.create({
       name: 'Admin Saints',
-      email: process.env.ADMIN_DEFAULT_EMAIL || 'admin@saintspeaceflygod.com',
+      email: process.env.ADMIN_DEFAULT_EMAIL || 'rmuiagaiii44@gmail.com',
       password: process.env.ADMIN_DEFAULT_PASSWORD || 'ChangeMeImmediately2025!',
       role: 'admin',
       isVerified: true,
-      phone: '254700000000'
+      phone: '254718801681'
     });
 
     console.log('Creating Test Users...');
@@ -72,7 +72,10 @@ const seedData = async () => {
     ]);
 
     console.log('Creating Products...');
-    const products = await Product.insertMany(productsData);
+    const products = [];
+    for (const p of productsData) {
+      products.push(await Product.create(p));
+    }
 
     console.log('Creating Fake Orders...');
     const orderData = [];

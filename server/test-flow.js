@@ -39,7 +39,11 @@ async function runTests() {
       shippingAddress: {
         firstName: 'John', lastName: 'Doe', phone: '254711111111', address1: '123 Fake St', city: 'Nbi', country: 'Kenya', postalCode: '00100'
       },
-      paymentMethod: 'mpesa'
+      paymentMethod: 'mpesa',
+      subtotal: product.price,
+      shipping: 12,
+      tax: Math.round(product.price * 0.05),
+      total: product.price + 12 + Math.round(product.price * 0.05)
     };
     
     const orderRes = await axios.post('http://localhost:5000/api/orders', orderPayload, { headers: authHeaders });
@@ -54,10 +58,25 @@ async function runTests() {
     }, { headers: authHeaders });
 
     console.log('M-Pesa STK Push response:', mpesaRes.data);
+
+    console.log('\n--- TESTING M-PESA CONFIRMATION (STOCK DECREMENT) ---');
+    const oldStock = (await axios.get(`http://localhost:5000/api/products/${product._id}`)).data.stock;
+    console.log('Stock before payment:', oldStock);
+
+    await axios.post('http://localhost:5000/api/payments/mpesa/confirm', { orderId: order._id }, { headers: authHeaders });
+    console.log('Payment confirmed via demo mode.');
+
+    const newStock = (await axios.get(`http://localhost:5000/api/products/${product._id}`)).data.stock;
+    console.log('Stock after payment:', newStock);
+
+    if (newStock !== oldStock - 1) {
+        throw new Error(`Stock decrement failed: expected ${oldStock - 1}, got ${newStock}`);
+    }
+    console.log('STOCK DECREMENT VERIFIED!');
     
-    console.log('\n✅ ALL INTEGRATION TESTS PASSED!');
+    console.log('\nALL INTEGRATION TESTS PASSED!');
   } catch(e) {
-    console.error('❌ TEST FAILED:', e.response?.data || e.message);
+    console.error('TEST FAILED:', e.response?.data || e.message);
   }
 }
 runTests();

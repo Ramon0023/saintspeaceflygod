@@ -66,7 +66,7 @@ app.use('/api/subscribers', require('./routes/subscribers'));
 
 // Global Error Handler
 app.use((err, req, res, next) => {
-  console.error('⚠️ System Error:', err.stack);
+  console.error('System Error:', err.stack);
   const status = err.status || 500;
   const message = process.env.NODE_ENV === 'production' 
     ? 'An internal transmission error occurred in the void.' 
@@ -86,10 +86,14 @@ const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/saints
 mongoose.connect(MONGODB_URI)
   .then(() => {
     console.log('Connected to MongoDB');
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-    });
+    if (require.main === module) {
+      app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+      });
+    }
   })
   .catch((error) => {
     console.error('MongoDB connection error:', error);
   });
+
+module.exports = app;

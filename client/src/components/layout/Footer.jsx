@@ -77,7 +77,12 @@ export default function Footer() {
               </button>
             </form>
             <div className="flex gap-4 mt-8">
-              <a href="#" onClick={(e) => { e.preventDefault(); toast('Forwarding to Instagram...'); }} className="w-8 h-8 rounded-full border border-[var(--color-text-muted)] flex items-center justify-center text-[var(--color-text-muted)] hover:border-[var(--color-highlight)] hover:text-[var(--color-highlight)] transition-colors">
+              <a 
+                href="https://instagram.com/saintspeaceflygod" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="w-8 h-8 rounded-full border border-[var(--color-text-muted)] flex items-center justify-center text-[var(--color-text-muted)] hover:border-[var(--color-highlight)] hover:text-[var(--color-highlight)] transition-colors"
+              >
                 IG
               </a>
               <a href="#" onClick={(e) => { e.preventDefault(); toast('Forwarding to X...'); }} className="w-8 h-8 rounded-full border border-[var(--color-text-muted)] flex items-center justify-center text-[var(--color-text-muted)] hover:border-[var(--color-highlight)] hover:text-[var(--color-highlight)] transition-colors">

@@ -8,16 +8,23 @@ export default function Collections() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [categories, setCategories] = useState(['All']);
 
   const activeCollection = searchParams.get('collection') || 'All';
   const sort = searchParams.get('sort') || 'newest';
   const searchQuery = searchParams.get('search') || '';
 
-  const categories = ['All', 'Fallen Angels', 'Elevated', 'Dreamstate', 'The Chosen'];
+  useEffect(() => {
+    // Fetch categories
+    axios.get('/api/products/collections')
+      .then(res => {
+        setCategories(['All', ...res.data.map(c => c.name)]);
+      })
+      .catch(err => console.error('Failed to fetch collections:', err));
+  }, []);
 
   useEffect(() => {
     document.title = 'The Archives | Saintspeaceflygod™';
-    setLoading(true);
     let url = `/api/products?sort=${sort}`;
     if (activeCollection !== 'All') {
       url += `&collection=${activeCollection}`;
@@ -35,6 +42,7 @@ export default function Collections() {
   }, [activeCollection, sort, searchQuery]);
 
   const updateFilter = (key, value) => {
+    setLoading(true);
     const params = new URLSearchParams(searchParams);
     params.set(key, value);
     setSearchParams(params);

@@ -1,3 +1,4 @@
+/* global require */
 const Jimp = require('jimp');
 
 async function removeBackground() {

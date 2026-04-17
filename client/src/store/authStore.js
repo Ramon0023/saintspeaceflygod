@@ -11,7 +11,7 @@ export const useAuthStore = create((set) => ({
     try {
       const res = await axios.get('/api/auth/me');
       set({ user: res.data, isAuthenticated: true });
-    } catch (err) {
+    } catch {
       set({ user: null, isAuthenticated: false });
     } finally {
       set({ isLoading: false });

@@ -3,7 +3,7 @@ require('dotenv').config({ path: path.join(__dirname, '.env') });
 const mongoose = require('mongoose');
 const User = require('./models/User');
 
-const ADMIN_EMAIL = 'admin@saintspeaceflygod.com';
+const ADMIN_EMAIL = 'rmuiagaiii44@gmail.com';
 const ADMIN_PASSWORD = 'ChangeMeImmediately2025!';
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/saintspeaceflygod';
 

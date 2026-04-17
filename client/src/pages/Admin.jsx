@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import axios from 'axios';
 import { Users, Package, ShoppingCart, Activity, Edit, Trash2, Mail, Bell, Settings, CheckCircle, Clock } from 'lucide-react';
@@ -7,8 +7,10 @@ import toast from 'react-hot-toast';
 import Button from '../components/ui/Button';
 import Modal from '../components/ui/Modal';
 import Input from '../components/ui/Input';
+import { useAuthStore } from '../store/authStore';
 
 export default function Admin() {
+  const { logout } = useAuthStore();
   const [activeTab, setActiveTab] = useState('dashboard');
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -35,9 +37,9 @@ export default function Admin() {
 
   useEffect(() => {
     fetchData();
-  }, [activeTab]);
+  }, [fetchData]);
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setLoading(true);
     try {
       if (activeTab === 'dashboard') {
@@ -62,13 +64,12 @@ export default function Admin() {
         const res = await axios.get('/api/admin/settings');
         setSettings(res.data);
       }
-    } catch (err) {
-      console.error(err);
+    } catch {
       toast.error('Failed to synchronize with the void.');
     } finally {
       setLoading(false);
     }
-  };
+  }, [activeTab]);
 
   const handleUpdateOrderStatus = async (orderId, orderStatus, paymentStatus) => {
     try {
@@ -76,7 +77,7 @@ export default function Admin() {
       toast.success('Order status updated.');
       if (activeTab === 'orders') fetchData();
       if (selectedOrder) setSelectedOrder({ ...selectedOrder, orderStatus, paymentStatus });
-    } catch (err) {
+    } catch {
       toast.error('Failed to update status.');
     }
   };
@@ -86,7 +87,7 @@ export default function Admin() {
       await axios.put(`/api/admin/messages/${id}/read`);
       setMessages(messages.map(m => m._id === id ? { ...m, isRead: true } : m));
       toast.success('Transmission marked as read.');
-    } catch (err) {
+    } catch {
       toast.error('Failed to update message.');
     }
   };
@@ -97,7 +98,7 @@ export default function Admin() {
     try {
       await axios.put('/api/admin/settings', settings);
       toast.success('System settings calibrated.');
-    } catch (err) {
+    } catch {
       toast.error('Calibration failed.');
     } finally {
       setIsSaving(false);
@@ -156,8 +157,8 @@ export default function Admin() {
       }
       setIsProductModalOpen(false);
       fetchData();
-    } catch (err) {
-      toast.error(err.response?.data?.message || 'Failed to save.');
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Failed to save.');
     } finally {
       setIsSaving(false);
     }
@@ -169,7 +170,7 @@ export default function Admin() {
       await axios.delete(`/api/products/${id}`);
       toast.success('Product erased.');
       fetchData();
-    } catch (err) {
+    } catch {
       toast.error('Deletion failed.');
     }
   };
@@ -358,7 +359,9 @@ export default function Admin() {
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
           <div className="flex justify-between items-center mb-8">
             <h2 className="font-serif italic text-3xl">Manifestations</h2>
-            <Button size="sm" onClick={() => handleOpenProductModal()}>+ Create New</Button>
+            <Button size="sm" className="flex items-center gap-2" onClick={() => handleOpenProductModal()}>
+              <Plus size={16} /> Create New
+            </Button>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {products.map(p => (

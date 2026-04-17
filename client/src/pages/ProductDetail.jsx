@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { useCartStore } from '../store/cartStore';
 import Button from '../components/ui/Button';
 import Spinner from '../components/ui/Spinner';
+import ProductCard from '../components/product/ProductCard';
 import { motion } from 'framer-motion';
 
 export default function ProductDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
+  const [related, setRelated] = useState([]);
   const [loading, setLoading] = useState(true);
   
   const [selectedSize, setSelectedSize] = useState('');
@@ -20,11 +22,21 @@ export default function ProductDetail() {
   const addToCart = useCartStore(state => state.addToCart);
 
   useEffect(() => {
+    setLoading(true);
     axios.get(`/api/products/${id}`)
       .then(res => {
         setProduct(res.data);
         if (res.data.sizes?.length) setSelectedSize(res.data.sizes[0]);
         if (res.data.colors?.length) setSelectedColor(res.data.colors[0].name);
+        
+        // Fetch related products from same collection
+        return axios.get(`/api/products?collection=${res.data.collectionName}`);
+      })
+      .then(res => {
+        if (res && res.data) {
+          // Filter out current product
+          setRelated(res.data.filter(p => p._id !== id && p.slug !== id).slice(0, 4));
+        }
       })
       .catch(err => {
         console.error(err);
@@ -156,6 +168,18 @@ export default function ProductDetail() {
         </div>
 
       </div>
+
+      {/* Related Products */}
+      {related.length > 0 && (
+        <div className="mt-32">
+          <h2 className="font-serif italic text-3xl mb-12 border-b border-white/5 pb-4">Synergistic Manifestations</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {related.map(p => (
+              <ProductCard key={p._id} product={p} />
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

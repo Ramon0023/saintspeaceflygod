@@ -14,10 +14,10 @@ export default function Contact() {
     e.preventDefault();
     setIsLoading(true);
     try {
-      await axios.post('http://localhost:5000/api/contact', formData);
+      await axios.post('/api/contact', formData);
       toast.success('Message sent! We will reach out soon.');
       setFormData({ name: '', email: '', subject: 'General Inquiry', message: '' });
-    } catch (err) {
+    } catch {
       toast.error('Failed to send message.');
     } finally {
       setIsLoading(false);
@@ -71,11 +71,12 @@ export default function Contact() {
             <h2 className="text-2xl font-serif italic mb-6">Direct Channels</h2>
             <div className="space-y-4 text-[var(--color-text-muted)]">
               <div className="flex items-center gap-4">
-                <Mail className="text-[var(--color-accent)]" /> <span>contact@saintspeaceflygod.com</span>
+                <Mail className="text-[var(--color-accent)]" /> <span>rmuiagaiii44@gmail.com</span>
               </div>
               <div className="flex items-center gap-4">
-                <Phone className="text-[var(--color-accent)]" /> <span>+254 700 000 000</span>
+                <Phone className="text-[var(--color-accent)]" /> <span>+254 718 801 681</span>
               </div>
+
               <div className="flex items-center gap-4">
                 <MapPin className="text-[var(--color-accent)]" /> <span>Void Terminal, Nairobi HQ</span>
               </div>

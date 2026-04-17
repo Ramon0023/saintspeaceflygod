@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 
@@ -10,21 +10,23 @@ import Footer from './components/layout/Footer';
 import Particles from './components/layout/Particles';
 import ProtectedRoute from './components/layout/ProtectedRoute';
 import CartDrawer from './components/cart/CartDrawer';
-import NotFound from './pages/NotFound';
+import Spinner from './components/ui/Spinner';
 
-import Home from './pages/Home';
-import About from './pages/About';
-import Contact from './pages/Contact';
-import Terms from './pages/Terms';
-import Privacy from './pages/Privacy';
-import Collections from './pages/Collections';
-import ProductDetail from './pages/ProductDetail';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import ForgotPassword from './pages/ForgotPassword';
-import Profile from './pages/Profile';
-import Checkout from './pages/Checkout';
-import Admin from './pages/Admin';
+// Lazy load all pages
+const Home = lazy(() => import('./pages/Home'));
+const About = lazy(() => import('./pages/About'));
+const Contact = lazy(() => import('./pages/Contact'));
+const Terms = lazy(() => import('./pages/Terms'));
+const Privacy = lazy(() => import('./pages/Privacy'));
+const Collections = lazy(() => import('./pages/Collections'));
+const ProductDetail = lazy(() => import('./pages/ProductDetail'));
+const Login = lazy(() => import('./pages/Login'));
+const Register = lazy(() => import('./pages/Register'));
+const ForgotPassword = lazy(() => import('./pages/ForgotPassword'));
+const Profile = lazy(() => import('./pages/Profile'));
+const Checkout = lazy(() => import('./pages/Checkout'));
+const Admin = lazy(() => import('./pages/Admin'));
+const NotFound = lazy(() => import('./pages/NotFound'));
 
 function App() {
   const checkAuth = useAuthStore(state => state.checkAuth);
@@ -51,34 +53,36 @@ function App() {
         <Particles />
         <Navbar />
         <main className={`flex-grow ${settings.announcement_banner ? 'pt-32' : 'pt-24'} relative z-10`}>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/terms" element={<Terms />} />
-            <Route path="/privacy" element={<Privacy />} />
-            <Route path="/collections" element={<Collections />} />
-            <Route path="/product/:id" element={<ProductDetail />} />
-            
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Suspense fallback={<div className="min-h-[50vh] flex items-center justify-center"><Spinner size="lg" /></div>}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/terms" element={<Terms />} />
+              <Route path="/privacy" element={<Privacy />} />
+              <Route path="/collections" element={<Collections />} />
+              <Route path="/product/:id" element={<ProductDetail />} />
+              
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
 
-            {/* Protected Routes */}
-            <Route element={<ProtectedRoute />}>
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/checkout" element={<Checkout />} />
-            </Route>
-            
-            {/* Admin Routes */}
-            <Route element={<ProtectedRoute adminOnly={true} />}>
-              <Route path="/admin" element={<Admin />} />
-            </Route>
+              {/* Protected Routes */}
+              <Route element={<ProtectedRoute />}>
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/checkout" element={<Checkout />} />
+              </Route>
+              
+              {/* Admin Routes */}
+              <Route element={<ProtectedRoute adminOnly={true} />}>
+                <Route path="/admin" element={<Admin />} />
+              </Route>
 
-            {/* Catch All */}
-            <Route path="*" element={<NotFound />} />
+              {/* Catch All */}
+              <Route path="*" element={<NotFound />} />
 
-          </Routes>
+            </Routes>
+          </Suspense>
         </main>
         <Footer />
         <CartDrawer />

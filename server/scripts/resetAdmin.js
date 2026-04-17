@@ -2,7 +2,7 @@ require('dotenv').config({ path: require('path').join(__dirname, '../.env') });
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
-const ADMIN_EMAIL = process.env.ADMIN_DEFAULT_EMAIL || 'admin@saintspeaceflygod.com';
+const ADMIN_EMAIL = process.env.ADMIN_DEFAULT_EMAIL || 'rmuiagaiii44@gmail.com';
 const ADMIN_PASSWORD = process.env.ADMIN_DEFAULT_PASSWORD || 'ChangeMeImmediately2025!';
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/saintspeaceflygod';
 
@@ -50,12 +50,12 @@ async function resetAdmin() {
       { upsert: true, new: true }
     );
 
-    console.log('✅ Admin user ready:');
+    console.log('Admin user ready:');
     console.log(`   Email   : ${ADMIN_EMAIL}`);
     console.log(`   Password: ${ADMIN_PASSWORD}`);
     console.log(`   Role    : ${result.role}`);
   } catch (err) {
-    console.error('❌ Error:', err.message);
+    console.error('Error:', err.message);
   } finally {
     await mongoose.disconnect();
     console.log('Disconnected.');
