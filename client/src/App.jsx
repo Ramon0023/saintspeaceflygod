@@ -86,6 +86,8 @@ function App() {
         </main>
         <Footer />
         <CartDrawer />
+        <Analytics />
+        <SpeedInsights />
         <Toaster position="bottom-right" toastOptions={{
           style: {
             background: 'rgba(14, 0, 26, 0.9)',
@@ -94,6 +96,13 @@ function App() {
             backdropFilter: 'blur(10px)'
           }
         }} />
+      </div>
+    </Router>
+  );
+}
+
+export default App;
+    }} />
       </div>
     </Router>
   );
