@@ -71,14 +71,10 @@ export default function Contact() {
             <h2 className="text-2xl font-serif italic mb-6">Direct Channels</h2>
             <div className="space-y-4 text-[var(--color-text-muted)]">
               <div className="flex items-center gap-4">
-                <Mail className="text-[var(--color-accent)]" /> <span>rmuiagaiii44@gmail.com</span>
+                <Mail className="text-[var(--color-accent)]" /> <span>rmuigaiii44@gmail.com</span>
               </div>
               <div className="flex items-center gap-4">
-                <Phone className="text-[var(--color-accent)]" /> <span>+254 718 801 681</span>
-              </div>
-
-              <div className="flex items-center gap-4">
-                <MapPin className="text-[var(--color-accent)]" /> <span>Void Terminal, Nairobi HQ</span>
+                <Phone className="text-[var(--color-accent)]" /> <span>+254 718 801681</span>
               </div>
             </div>
           </div>
