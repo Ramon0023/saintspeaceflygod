@@ -1,6 +1,8 @@
 import React, { useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 import { useAuthStore } from './store/authStore';
 import { useSettingsStore } from './store/settingsStore';
@@ -91,18 +93,11 @@ function App() {
         <Toaster position="bottom-right" toastOptions={{
           style: {
             background: 'rgba(14, 0, 26, 0.9)',
-            border: '1px solid rgba(147, 51, 234, 0.3)',
+            border: '1px solid rgba(147,51,234,0.3)',
             color: '#F3EEFF',
             backdropFilter: 'blur(10px)'
           }
         }} />
-      </div>
-    </Router>
-  );
-}
-
-export default App;
-    }} />
       </div>
     </Router>
   );
